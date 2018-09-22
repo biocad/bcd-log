@@ -1,5 +1,7 @@
 {-# OPTIONS_GHC -fno-warn-orphans #-}
+{-# LANGUAGE RankNTypes      #-}
 {-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE ViewPatterns    #-}
 
 module System.BCD.Log
   (
@@ -11,21 +13,21 @@ module System.BCD.Log
   , warning'
   , error'
   , critical'
+  , format
+  , save
   ) where
 
 import           Control.Monad.IO.Class   (MonadIO, liftIO)
 import           Data.Aeson               (encode)
-import           Data.ByteString.Lazy     (toStrict)
 import           Data.Text                (Text)
-import           Data.Text.Encoding       (decodeUtf8)
 import qualified Data.Text.IO             (putStrLn)
 import           System.BCD.Log.Instances ()
+import           System.BCD.Log.TextLike  (TextLike (..))
 import           System.BCD.Log.Time      (milliseconds, time)
-import           System.BCD.Log.Types     (AppName, Level (..), Log (..),
-                                           Milliseconds)
+import           System.BCD.Log.Types     (Level (..), Log (..), Milliseconds)
 
-type CommonLog    m = Level -> AppName -> Text -> m ()
-type SpecifiedLog m =          AppName -> Text -> m ()
+type CommonLog    m = forall t t1. (TextLike t, TextLike t1) => Level -> t -> t1 -> m ()
+type SpecifiedLog m = forall t t1. (TextLike t, TextLike t1) =>          t -> t1 -> m ()
 
 debug' :: MonadIO m => SpecifiedLog m
 debug' = log' DEBUG
@@ -43,13 +45,13 @@ critical' :: MonadIO m => SpecifiedLog m
 critical' = log' CRITICAL
 
 log' :: MonadIO m => CommonLog m
-log' level app msg = do
+log' level (toText -> app) (toText -> msg) = do
     datetime  <- time
     timestamp <- milliseconds
     save . format $ Log {..}
-  where
-    format :: Log -> Text
-    format = decodeUtf8 . toStrict . encode
-    
-    save :: MonadIO m => Text -> m ()
-    save = liftIO . Data.Text.IO.putStrLn
+
+format :: Log -> Text
+format = toText . encode
+
+save :: MonadIO m => Text -> m ()
+save = liftIO . Data.Text.IO.putStrLn

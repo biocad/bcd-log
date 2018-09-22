@@ -1,5 +1,5 @@
 name:                bcd-log
-version:             0.1.0.0
+version:             0.1.0.1
 synopsis:            Biocad Log
 description:
             Biocad log includes:
@@ -20,15 +20,15 @@ library
   exposed-modules:     System.BCD.Log
   other-modules:       System.BCD.Log.Types
                      , System.BCD.Log.Instances  
-                     , System.BCD.Log.Time   
+                     , System.BCD.Log.Time  
+                     , System.BCD.Log.TextLike
   build-depends:       base >= 4.7 && < 5
                      , aeson
-                     , clock
                      , bytestring
-                     , time
+                     , clock
                      , deepseq
-                     , fast-logger
                      , text
+                     , time
   default-language:    Haskell2010
 
 source-repository head
