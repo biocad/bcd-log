@@ -1,0 +1,36 @@
+name:                bcd-log
+version:             0.1.0.0
+synopsis:            Biocad Log
+description:
+            Biocad log includes:
+            - basic logging fuctions to log into STDOUT
+homepage:            https://github.com/biocad/bcd-log#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Bogdan Neterebskii
+maintainer:          neterebskiy@biocad.ru
+copyright:           (c) 2018, BIOCAD CBD
+category:            System
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     System.BCD.Log
+  other-modules:       System.BCD.Log.Types
+                     , System.BCD.Log.Instances  
+                     , System.BCD.Log.Time   
+  build-depends:       base >= 4.7 && < 5
+                     , aeson
+                     , clock
+                     , bytestring
+                     , time
+                     , deepseq
+                     , fast-logger
+                     , text
+  default-language:    Haskell2010
+
+source-repository head
+  type:     git
+  location: https://github.com/biocad/bcd-log
