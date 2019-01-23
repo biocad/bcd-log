@@ -4,8 +4,7 @@
 {-# LANGUAGE ViewPatterns    #-}
 
 module System.BCD.Log
-  (
-    module System.BCD.Log.Types
+  ( module System.BCD.Log.Types
   , module System.BCD.Log.Time
   , log'
   , debug'
@@ -23,8 +22,8 @@ import           Data.Text                (Text)
 import qualified Data.Text.IO             (putStrLn)
 import           System.BCD.Log.Instances ()
 import           System.BCD.Log.TextLike  (TextLike (..))
-import           System.BCD.Log.Time      (milliseconds, time)
-import           System.BCD.Log.Types     (Level (..), Log (..), Milliseconds)
+import           System.BCD.Log.Time      (seconds, time)
+import           System.BCD.Log.Types     (Level (..), Log (..))
 
 type CommonLog    m = forall t t1. (TextLike t, TextLike t1) => Level -> t -> t1 -> m ()
 type SpecifiedLog m = forall t t1. (TextLike t, TextLike t1) =>          t -> t1 -> m ()
@@ -46,8 +45,8 @@ critical' = log' CRITICAL
 
 log' :: MonadIO m => CommonLog m
 log' level (toText -> app) (toText -> msg) = do
-    datetime  <- time
-    timestamp <- milliseconds
+    datetime <- time
+    unixtime <- seconds
     save . format $ Log {..}
 
 format :: Log -> Text

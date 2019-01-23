@@ -1,9 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module System.BCD.Log.Time
-  (
-    time
-  , milliseconds
+  ( time
+  , seconds
   , nanoseconds
   ) where
 
@@ -11,7 +10,6 @@ import           Control.Monad.IO.Class (MonadIO, liftIO)
 import           Data.Text              (Text, pack)
 import           Data.Time              (defaultTimeLocale, formatTime,
                                          getZonedTime)
-import           System.BCD.Log.Types   (Milliseconds)
 import           System.Clock           (Clock (..), getTime, toNanoSecs)
 
 -- | Get time in nice format (example: '2018-09-22T11:53:34+0200')
@@ -22,8 +20,8 @@ time = let rfc3339like = "%FT%T%z"
 
 -- | Get current time in milliseconds
 --
-milliseconds :: MonadIO m => m Milliseconds
-milliseconds = (`div` 10^(6::Int)) <$> nanoseconds
+seconds :: MonadIO m => m Int
+seconds = (`div` 10^(9::Int)) <$> nanoseconds
 
 -- | Get current time in nanoseconds
 --
