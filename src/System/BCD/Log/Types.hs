@@ -17,10 +17,11 @@ type Milliseconds = Int
 data Level = DEBUG | INFO | WARNING | ERROR | CRITICAL
   deriving (Generic, Show, Read, NFData)
 
-data Log = Log { datetime  :: Text
-               , timestamp :: Milliseconds
-               , level     :: Level
-               , app       :: Text
-               , msg       :: Text
+data Log = Log { datetime  :: !Text
+               , timestamp :: !Milliseconds
+               , level     :: !Level
+               , app       :: !Text
+               , msg       :: !Text
+               , sourceLoc :: !(Maybe Text)
                }
   deriving (Generic, Show, Read, NFData)

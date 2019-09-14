@@ -1,5 +1,5 @@
 name:                bcd-log
-version:             0.1.0.1
+version:             0.1.2.0
 synopsis:            Biocad Log
 description:
             Biocad log includes:
@@ -19,17 +19,30 @@ library
   hs-source-dirs:      src
   exposed-modules:     System.BCD.Log
   other-modules:       System.BCD.Log.Types
+                     , System.BCD.Log.Class
+                     , System.BCD.Log.Formatting
                      , System.BCD.Log.Instances  
-                     , System.BCD.Log.Time  
                      , System.BCD.Log.TextLike
+                     , System.BCD.Log.Time  
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , bytestring
                      , clock
+                     , data-has
                      , deepseq
+                     , fast-logger
+                     , mtl
                      , text
                      , time
   default-language:    Haskell2010
+  ghc-options:         -Wall
+  default-extensions:  ConstraintKinds
+                     , FlexibleContexts
+                     , FlexibleInstances
+                     , OverloadedStrings
+                     , RecordWildCards
+                     , TypeApplications
+                     , UndecidableInstances
 
 source-repository head
   type:     git
