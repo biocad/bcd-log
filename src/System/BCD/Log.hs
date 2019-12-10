@@ -15,12 +15,15 @@ module System.BCD.Log
   , critical'
   , format
   , save
+  , MonadBCDLog(..)
+  , WithBCDLog
   ) where
 
 import           Control.Monad.IO.Class   (MonadIO, liftIO)
 import           Data.Aeson               (encode)
 import           Data.Text                (Text)
 import qualified Data.Text.IO             (putStrLn)
+import           System.BCD.Log.Class     (MonadBCDLog (..), WithBCDLog)
 import           System.BCD.Log.Instances ()
 import           System.BCD.Log.TextLike  (TextLike (..))
 import           System.BCD.Log.Time      (milliseconds, time)
@@ -48,7 +51,7 @@ log' :: MonadIO m => CommonLog m
 log' level (toText -> app) (toText -> msg) = do
     datetime  <- time
     timestamp <- milliseconds
-    save . format $ Log {..}
+    save . format $ Log {sourceLoc = Nothing, ..}
 
 format :: Log -> Text
 format = toText . encode
