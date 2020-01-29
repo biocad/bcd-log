@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0.2] - 2020-01-22
+### Added
+- Export `TextLike`.
+
 ## [0.1.0.1] - 2018-09-22
 ### Chaged
 - `Text` for the messages and applications replaced with more abstract class.

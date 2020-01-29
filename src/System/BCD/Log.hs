@@ -7,6 +7,7 @@ module System.BCD.Log
   (
     module System.BCD.Log.Types
   , module System.BCD.Log.Time
+  , TextLike
   , log'
   , debug'
   , info'
